@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id          Int      @id @default(autoincrement())
+  title       String
+  summary     String?
+  url         String   @unique
+  source      String
+  publishedAt DateTime
+  content     String?
+  clusterId   Int?
+  cluster     Cluster? @relation(fields: [clusterId], references: [id])
+}
+
+model Cluster {
+  id        Int       @id @default(autoincrement())
+  label     String
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime  @default(now())
+  articles  Article[]
+}

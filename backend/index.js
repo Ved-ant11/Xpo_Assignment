@@ -92,7 +92,7 @@ app.post('/ingest/trigger', (req, res) => {
     const jobId = Date.now().toString();
     jobs.set(jobId, { status: 'running', error: null });
     
-    const pythonScript = path.join(__dirname, 'ingest', 'main.py');
+    const pythonScript = path.join(__dirname, '..', 'scraper', 'main.py');
     
     let pythonExecutable = 'python';
     const venvWindowsPath = path.join(__dirname, '..', '.venv', 'Scripts', 'python.exe');

@@ -31,6 +31,11 @@ export default function Home() {
 
     useEffect(() => {
         fetchTimeline();
+        const intervalId = setInterval(() => {
+            fetchTimeline();
+        }, 10000);
+        
+        return () => clearInterval(intervalId);
     }, []);
 
     useEffect(() => {

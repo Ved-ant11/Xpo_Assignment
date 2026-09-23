@@ -31,13 +31,14 @@ export default function Timeline({ clusters, onSelectCluster, selectedClusterId 
                     const left = Math.max(0, ((startTs - minTime) / totalDuration) * 100);
                     const width = Math.min(100 - left, Math.max(((endTs - startTs) / totalDuration) * 100, 3));
                     const isSelected = cluster.id === selectedClusterId;
-                    const intensity = Math.min(cluster.articleCount * 0.15, 0.8);
+                    const sizeClass = cluster.articleCount >= 10 ? 'h-2.5' : cluster.articleCount >= 4 ? 'h-2' : 'h-1';
+                    const baseColor = cluster.articleCount >= 10 ? 'bg-zinc-400' : cluster.articleCount >= 4 ? 'bg-zinc-600' : 'bg-zinc-800';
                     
                     return (
                         <div
                             key={cluster.id}
                             onClick={() => onSelectCluster(cluster.id)}
-                            className={`absolute h-1.5 rounded-full cursor-pointer transition-all duration-300 ease-out group ${isSelected ? 'bg-white z-50 shadow-[0_0_12px_rgba(255,255,255,0.4)]' : 'bg-zinc-800 hover:bg-zinc-400 z-10 hover:z-40'}`}
+                            className={`absolute rounded-full cursor-pointer transition-all duration-300 ease-out group ${isSelected ? `bg-white z-50 shadow-[0_0_12px_rgba(255,255,255,0.4)] ${cluster.articleCount >= 10 ? 'h-3' : cluster.articleCount >= 4 ? 'h-2.5' : 'h-1.5'}` : `${baseColor} hover:bg-zinc-400 z-10 hover:z-40 ${sizeClass}`}`}
                             style={{
                                 left: `${left}%`,
                                 width: `${width}%`,

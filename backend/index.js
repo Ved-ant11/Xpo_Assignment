@@ -104,7 +104,7 @@ app.post('/ingest/trigger', (req, res) => {
         pythonExecutable = venvLinuxPath;
     }
     
-    const pythonProcess = spawn(pythonExecutable, [pythonScript]);
+    const pythonProcess = spawn(pythonExecutable, [pythonScript], { stdio: 'inherit' });
     
     pythonProcess.on('close', (code) => {
         if (code === 0) {

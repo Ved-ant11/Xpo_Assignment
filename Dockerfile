@@ -16,7 +16,7 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip3 install --no-cache-dir -r scraper/requirements.txt
 
-RUN python -m nltk.downloader stopwords
+RUN python -m nltk.downloader stopwords punkt punkt_tab
 
 
 COPY backend/ ./backend/

@@ -6,7 +6,7 @@ News Pulse is a decoupled web application designed to pull real-time news articl
 This project employs a modern, decoupled architecture designed for scalability and clear separation of concerns:
 - **Database**: Neon Postgres (Serverless Postgres) with Prisma ORM for schema management.
 - **Backend API (Node.js)**: An Express REST API that handles fetching data for the frontend and acts as an orchestrator to spawn the Python ingestion script as a child process.
-- **Ingestion Worker (Python)**: A dedicated Python worker script (`ingest/main.py`) that utilizes `feedparser` and `BeautifulSoup` to scrape RSS feeds, clean the text, and perform natural language topic clustering.
+- **Ingestion Worker (Python)**: A dedicated Python worker script (`scraper/main.py`) that utilizes `feedparser` and `BeautifulSoup` to scrape RSS feeds, clean the text, and perform natural language topic clustering.
 - **Frontend (Next.js)**: A sleek, high-performance React frontend built with Next.js and Tailwind CSS, featuring an interactive cluster timeline and a minimalist UI.
 
 ## Topic-Grouping Approach
@@ -49,20 +49,20 @@ npx prisma generate
 ```
 
 ### 2. Backend & Python Setup
-The backend utilizes a Python virtual environment to run the ingestion script. 
+The backend utilizes a Python virtual environment to run the ingestion script. You should create the virtual environment at the **root** of the project so both the backend and scraper can access it.
 
 **Install Python Dependencies**:
 ```bash
-cd backend
+# In the root directory (News_Pulse)
 python -m venv .venv
 
 # Windows
 .venv\Scripts\activate
-pip install -r ingest/requirements.txt
+pip install -r scraper/requirements.txt
 
 # Linux/Mac
 source .venv/bin/activate
-pip install -r ingest/requirements.txt
+pip install -r scraper/requirements.txt
 ```
 
 **Start the Node.js API Server**:
@@ -81,3 +81,12 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` in your browser. Click the **Sync** button in the top right to trigger the Python worker and begin clustering news articles in real-time!
+
+## Docker Deployment
+This project includes a root-level `Dockerfile` that packages both the Node.js API and the Python scraper into a single robust container, pre-configuring the virtual environment and all NLTK datasets.
+
+To deploy on platforms like Render or Google Cloud Run:
+1. Set the Root Directory to blank (the root of the project).
+2. The platform will auto-detect the `Dockerfile`.
+3. Provide your `DATABASE_URL` as an environment variable.
+4. Deploy!

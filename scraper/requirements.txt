@@ -2,6 +2,7 @@ feedparser==6.0.14
 beautifulsoup4==4.12.2
 newspaper3k==0.2.8
 psycopg==3.1.18
+psycopg-binary==3.1.18
 python-dotenv==1.0.0
 nltk==3.8.1
 python-dateutil==2.9.0
